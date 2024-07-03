@@ -1,5 +1,5 @@
 import InfiniteScroll from "./InfiniteScroll";
 
-export default function AppPage() {
+export default function ExplorePage() {
   return <InfiniteScroll />;
 }

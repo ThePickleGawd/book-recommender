@@ -1,30 +1,36 @@
 "use client";
 
+import { BookData } from "@/util/mock-data";
 import {
   BookOpenIcon,
   HandThumbDownIcon,
   HandThumbUpIcon,
 } from "@heroicons/react/24/solid";
+import Image from "next/image";
 
 export default function BookRecommendation({
   className,
+  book,
 }: {
   className?: string;
+  book: BookData;
 }) {
+  const { title, author, imageURL, isbn } = book;
+
   return (
     <div
-      className={`h-screen px-4 py-4 ${className} flex items-center justify-center`}
+      className={`px-2 ${className} flex items-center justify-center overflow-clip`}
     >
-      <div className="bg-neutral-600/10 w-[512px] h-full rounded-lg px-16 py-8 flex flex-col">
-        <div className="flex w-full items-center justify-between ">
+      <div className="flex h-full w-[512px] flex-col rounded-lg bg-orange-200/40 px-4 py-4 shadow-md sm:p-12 sm:py-10">
+        <div className="flex w-full items-center justify-between">
           <div className="flex flex-col">
-            <div className="text-2xl font-bold">Atomic Habits</div>
-            <div className="text-neutral-600">James Clear</div>
+            <div className="text-2xl font-bold">{title}</div>
+            <div className="text-neutral-600">{author}</div>
           </div>
-          <div className="w-20 h-24 bg-white rounded-lg" />
+          <Image width={96} height={128} src={imageURL} alt={title} />
         </div>
 
-        <div className="flex flex-col space-y-8 mt-16">
+        <div className="mt-16 flex flex-col space-y-8">
           <div>
             <div className="font-bold">Summary: </div>
             <div>
@@ -44,14 +50,14 @@ export default function BookRecommendation({
           </div>
         </div>
         <div className="flex-1" />
-        <div className="py-2 flex justify-end space-x-3">
-          <button className="p-1 rounded-lg hover:bg-neutral-400/80 text-neutral-800">
+        <div className="flex justify-end space-x-3 py-2">
+          <button className="rounded-lg p-1 text-neutral-800 hover:bg-neutral-400/80">
             <BookOpenIcon className="size-8" />
           </button>
-          <button className="p-1 rounded-lg hover:bg-neutral-400/80 text-neutral-800">
+          <button className="rounded-lg p-1 text-neutral-800 hover:bg-neutral-400/80">
             <HandThumbDownIcon className="size-8" />
           </button>
-          <button className="p-1 rounded-lg hover:bg-neutral-400/80 text-neutral-800">
+          <button className="rounded-lg p-1 text-neutral-800 hover:bg-neutral-400/80">
             <HandThumbUpIcon className="size-8" />
           </button>
         </div>
