@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { StarIcon } from "@heroicons/react/24/outline";
+import { StarIcon, TrashIcon } from "@heroicons/react/24/outline";
 import Link from "next/link";
 import { BookData } from "@/util/mock-data";
 import Image from "next/image";
@@ -27,10 +27,10 @@ export default function BookCard({ book }: { book: BookData }) {
   };
 
   return (
-    <button className="flex space-x-4 truncate rounded-lg p-4 hover:shadow-md">
+    <div className="group relative flex space-x-4 truncate rounded-lg p-4 hover:shadow-md">
       <Image width={96} height={128} src={imageURL} alt={title} />
       <div className="flex flex-col items-start py-2">
-        <Link className="w-64 text-left" href="/books?isbn=1234">
+        <Link className="text-left" href="/books?isbn=1234">
           {title}
         </Link>
         <Link
@@ -56,6 +56,9 @@ export default function BookCard({ book }: { book: BookData }) {
           ))}
         </div>
       </div>
-    </button>
+      <button className="absolute right-4 top-4 hidden rounded-full bg-orange-100/95 p-1 group-hover:block">
+        <TrashIcon className="size-5 text-red-500 hover:text-red-700" />
+      </button>
+    </div>
   );
 }

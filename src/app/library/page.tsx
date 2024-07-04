@@ -13,7 +13,7 @@ export default function LibraryPage() {
           <div className="text-4xl font-bold">My Library</div>
           <div className="text-lg">Your personal collection of books.</div>
         </div>
-        <div className="mt-8 grid w-full grid-cols-1 gap-4 xl:grid-cols-2 2xl:grid-cols-3">
+        <div className="mt-8 grid w-full auto-rows-fr grid-cols-1 gap-4 xl:grid-cols-2 2xl:grid-cols-3">
           {mock_books_data.map((book) => (
             <BookCard key={book.isbn} book={book} />
           ))}

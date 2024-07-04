@@ -1,16 +1,11 @@
-interface Book {
-  id: number;
+interface BookItem {
   isbn: string;
-  name: string;
-  author: string;
-  personalRating: number;
-  publicationYear?: number; // Optional property
 }
 
 class MockDatabase {
   private dbName: string;
 
-  constructor(dbName: string) {
+  constructor(dbName: string = "MockDatabase") {
     this.dbName = dbName;
     this.init();
   }
@@ -21,55 +16,33 @@ class MockDatabase {
     }
   }
 
-  public getAll(): Book[] {
+  public getAll(): BookItem[] {
     return JSON.parse(localStorage.getItem(this.dbName) || "[]");
   }
 
-  public getById(id: number): Book | undefined {
+  public getById(isbn: string): BookItem | undefined {
     const records = this.getAll();
-    return records.find((record) => record.id === id);
+    return records.find((record) => record.isbn === isbn);
   }
 
-  public create(record: Book): void {
+  public create(record: BookItem): void {
     const records = this.getAll();
     records.push(record);
     localStorage.setItem(this.dbName, JSON.stringify(records));
   }
 
-  public update(id: number, updatedRecord: Partial<Book>): void {
+  public update(isbn: string, updatedRecord: Partial<BookItem>): void {
     const records = this.getAll();
-    const recordIndex = records.findIndex((record) => record.id === id);
+    const recordIndex = records.findIndex((record) => record.isbn === isbn);
     if (recordIndex !== -1) {
       records[recordIndex] = { ...records[recordIndex], ...updatedRecord };
       localStorage.setItem(this.dbName, JSON.stringify(records));
     }
   }
 
-  public delete(id: number): void {
+  public delete(isbn: string): void {
     let records = this.getAll();
-    records = records.filter((record) => record.id !== id);
+    records = records.filter((record) => record.isbn !== isbn);
     localStorage.setItem(this.dbName, JSON.stringify(records));
   }
 }
-
-// Example usage:
-const db = new MockDatabase("myBooks");
-
-// Create a new book record
-db.create({
-  id: 1,
-  isbn: "9780735211292",
-  name: "Atomic Habits",
-  author: "James Clear",
-  personalRating: 8.5,
-  publicationYear: 2018,
-});
-
-// Get all books
-console.log(db.getAll());
-
-// Update a book's author and personal rating
-db.update(1, { author: "James Clear Updated", personalRating: 9.0 });
-
-// Delete a book
-db.delete(1);

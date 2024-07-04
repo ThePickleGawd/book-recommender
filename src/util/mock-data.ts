@@ -40,3 +40,7 @@ export const mock_books_data: BookData[] = [
       "https://m.media-amazon.com/images/I/810u9MkT3SL._AC_UF1000,1000_QL80_.jpg",
   },
 ];
+
+export const loadMockDatabase = () => {
+  const db = new MockDatabase();
+};

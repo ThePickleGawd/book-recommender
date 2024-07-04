@@ -21,13 +21,13 @@ export default function BookRecommendation({
     <div
       className={`px-2 ${className} flex items-center justify-center overflow-clip`}
     >
-      <div className="flex h-full w-[512px] flex-col rounded-lg bg-orange-200/40 px-4 py-4 shadow-md sm:p-12 sm:py-10">
-        <div className="flex w-full items-center justify-between">
-          <div className="flex flex-col">
+      <div className="flex h-full w-[600px] flex-col rounded-lg bg-orange-200/40 px-4 py-4 shadow-md sm:p-12 sm:py-10">
+        <div className="flex w-full items-start justify-between">
+          <div className="mt-4 flex flex-col">
             <div className="text-2xl font-bold">{title}</div>
-            <div className="text-neutral-600">{author}</div>
+            <div className="">{author}</div>
           </div>
-          <Image width={96} height={128} src={imageURL} alt={title} />
+          <Image width={128} height={160} src={imageURL} alt={title} />
         </div>
 
         <div className="mt-16 flex flex-col space-y-8">
