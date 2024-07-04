@@ -1,8 +1,6 @@
-interface BookItem {
-  isbn: string;
-}
+import { BookData } from "@/lib/book.types";
 
-class MockDatabase {
+export class MockDatabase {
   private dbName: string;
 
   constructor(dbName: string = "MockDatabase") {
@@ -16,33 +14,47 @@ class MockDatabase {
     }
   }
 
-  public getAll(): BookItem[] {
+  public getAll(): BookData[] {
     return JSON.parse(localStorage.getItem(this.dbName) || "[]");
   }
 
-  public getById(isbn: string): BookItem | undefined {
+  public findByKey(ol_key: string): BookData | undefined {
     const records = this.getAll();
-    return records.find((record) => record.isbn === isbn);
+    return records.find((record) => record.ol_key === ol_key);
   }
 
-  public create(record: BookItem): void {
+  public create(record: BookData): void {
     const records = this.getAll();
+    if (
+      records.some((existingRecord) => existingRecord.ol_key === record.ol_key)
+    ) {
+      console.log("Record with this ol_key already exists");
+      return;
+    }
     records.push(record);
     localStorage.setItem(this.dbName, JSON.stringify(records));
   }
 
-  public update(isbn: string, updatedRecord: Partial<BookItem>): void {
+  public update(ol_key: string, updatedRecord: Partial<BookData>): void {
     const records = this.getAll();
-    const recordIndex = records.findIndex((record) => record.isbn === isbn);
+    const recordIndex = records.findIndex((record) => record.ol_key === ol_key);
     if (recordIndex !== -1) {
       records[recordIndex] = { ...records[recordIndex], ...updatedRecord };
       localStorage.setItem(this.dbName, JSON.stringify(records));
+    } else {
+      console.log("Record not found");
     }
   }
 
-  public delete(isbn: string): void {
-    let records = this.getAll();
-    records = records.filter((record) => record.isbn !== isbn);
-    localStorage.setItem(this.dbName, JSON.stringify(records));
+  public delete(ol_key: string): void {
+    const records = this.getAll();
+    const filteredRecords = records.filter(
+      (record) => record.ol_key !== ol_key,
+    );
+    localStorage.setItem(this.dbName, JSON.stringify(filteredRecords));
+  }
+
+  public empty(): boolean {
+    return this.getAll().length === 0;
   }
 }

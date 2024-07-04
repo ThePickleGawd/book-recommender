@@ -8,5 +8,13 @@ const nextConfig = {
       },
     ],
   },
+  async rewrites() {
+    return [
+      {
+        source: "/api/:path*",
+        destination: "https://openlibrary.org/:path*",
+      },
+    ];
+  },
 };
 export default nextConfig;

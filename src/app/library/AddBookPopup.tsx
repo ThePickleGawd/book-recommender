@@ -3,13 +3,22 @@
 import { PlusCircleIcon } from "@heroicons/react/24/solid";
 import { useState, useEffect, ChangeEvent, MouseEvent } from "react";
 import Image from "next/image";
-import { BookSearchResult, SearchApiResponse } from "@/lib/open-library.types";
+import {
+  OLBookSearchResult,
+  OLSearchApiResponse,
+} from "@/lib/open-library.types";
+import { addBookFromOLKey } from "@/util/mock-data";
+import { MockDatabase } from "@/util/mock-db";
 
 export default function AddBookPopup() {
+  // UI State
   const [open, setOpen] = useState<boolean>(false);
   const [input, setInput] = useState<string>("");
-  const [results, setResults] = useState<BookSearchResult[]>([]);
   const [isLoading, setIsLoading] = useState<boolean>(false);
+
+  // Search State
+  const [results, setResults] = useState<OLBookSearchResult[]>([]);
+  const [selectedBook, setSelectedBook] = useState<OLBookSearchResult>();
 
   useEffect(() => {
     const timeoutId = setTimeout(() => {
@@ -32,8 +41,15 @@ export default function AddBookPopup() {
     setInput(e.target.value);
   };
 
+  const handleAddSelectedBook = async () => {
+    if (!selectedBook) return;
+    await addBookFromOLKey(new MockDatabase(), selectedBook.key);
+    window.location.reload();
+  };
+
   const searchBooks = async (query: string) => {
     setIsLoading(true);
+    setSelectedBook(undefined);
     try {
       const response = await fetch(
         `https://openlibrary.org/search.json?q=${encodeURIComponent(query)}&limit=${10}&lang=en`,
@@ -41,7 +57,7 @@ export default function AddBookPopup() {
       if (!response.ok) {
         throw new Error(`HTTP error! status: ${response.status}`);
       }
-      const data: SearchApiResponse = await response.json();
+      const data: OLSearchApiResponse = await response.json();
       console.log(data);
       setResults(data.docs);
       setIsLoading(false);
@@ -62,7 +78,7 @@ export default function AddBookPopup() {
       {open && (
         <div
           className="fixed inset-0 z-10 flex h-screen w-screen items-center justify-center bg-black/40"
-          onClick={handleClose}
+          onMouseDown={handleClose}
         >
           <div className="mx-2 flex h-3/4 w-full flex-col rounded-lg bg-white p-8 shadow-md md:mx-0 md:h-2/3 md:w-2/3 lg:w-1/2">
             <input
@@ -75,11 +91,12 @@ export default function AddBookPopup() {
               {isLoading ? (
                 <p>Loading...</p>
               ) : (
-                <ul className="flex flex-col space-y-2">
+                <div className="flex flex-col space-y-2">
                   {results.map((book, idx) => (
-                    <li
+                    <button
                       key={idx}
-                      className="flex w-full items-center space-x-4 rounded-lg bg-gray-100 p-4"
+                      className={`flex w-full items-center space-x-4 rounded-lg p-4 text-left ${selectedBook == book ? "bg-blue-100" : ""} `}
+                      onClick={() => setSelectedBook(book)}
                     >
                       <div className="relative h-32 w-24">
                         <Image
@@ -89,17 +106,16 @@ export default function AddBookPopup() {
                               : "/images/book-default-cover.jpg"
                           }
                           alt={book.title}
-                          layout="fill"
-                          objectFit="fill" // This will crop the image to fill the container
+                          fill
                         />
                       </div>
                       <div className="h-full flex-1 overflow-hidden">
                         <div className="text-lg">{book.title}</div>
                         <div>{book.author_name?.join(", ")}</div>
                       </div>
-                    </li>
+                    </button>
                   ))}
-                </ul>
+                </div>
               )}
             </div>
             <div className="flex-1" />
@@ -110,7 +126,11 @@ export default function AddBookPopup() {
               >
                 Cancel
               </button>
-              <button className="rounded-lg bg-blue-200 px-8 py-2 font-bold text-blue-600">
+              <button
+                className="rounded-lg bg-blue-200 px-8 py-2 font-bold text-blue-600 disabled:bg-neutral-300 disabled:text-neutral-600"
+                disabled={selectedBook === undefined}
+                onClick={handleAddSelectedBook}
+              >
                 Add
               </button>
             </div>

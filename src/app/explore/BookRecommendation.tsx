@@ -1,6 +1,6 @@
 "use client";
 
-import { BookData } from "@/util/mock-data";
+import { BookData } from "@/lib/book.types";
 import {
   BookOpenIcon,
   HandThumbDownIcon,
@@ -15,7 +15,7 @@ export default function BookRecommendation({
   className?: string;
   book: BookData;
 }) {
-  const { title, author, imageURL, isbn } = book;
+  const { title, author, imageURL } = book;
 
   return (
     <div
@@ -27,7 +27,9 @@ export default function BookRecommendation({
             <div className="text-2xl font-bold">{title}</div>
             <div className="">{author}</div>
           </div>
-          <Image width={128} height={160} src={imageURL} alt={title} />
+          <div className="relative h-40 w-32 overflow-hidden object-cover">
+            <Image fill src={imageURL} alt={title} />
+          </div>
         </div>
 
         <div className="mt-16 flex flex-col space-y-8">

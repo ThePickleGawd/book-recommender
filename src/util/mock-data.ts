@@ -1,46 +1,59 @@
-export interface BookData {
-  title: string;
-  author: string;
-  isbn: string;
-  imageURL: string;
-}
+"use client";
 
-export const mock_books_data: BookData[] = [
-  {
-    title: "Atomic Habits",
-    author: "James Clear",
-    isbn: "9780735211292",
-    imageURL:
-      "https://m.media-amazon.com/images/I/81YkqyaFVEL._AC_UF1000,1000_QL80_.jpg",
-  },
-  {
-    title: "The Lean Startup",
-    author: "Eric Ries",
-    isbn: "9780307887894",
-    imageURL: "https://m.media-amazon.com/images/I/81-QB7nDh4L._AC_UY218_.jpg",
-  },
-  {
-    title: "Zero to One",
-    author: "Peter Thiel",
-    isbn: "9780804139298",
-    imageURL: "https://m.media-amazon.com/images/I/71uAI28kJuL._AC_UY218_.jpg",
-  },
-  {
-    title: "I Will Teach You to Be Rich",
-    author: "Ramit Sethi",
-    isbn: "9780761147480",
-    imageURL:
-      "https://m.media-amazon.com/images/I/81c9SSbG3OL._AC_UF1000,1000_QL80_.jpg",
-  },
-  {
-    title: "The Hard Thing About Hard Things",
-    author: "Ben Horowitz",
-    isbn: "9780062273208",
-    imageURL:
-      "https://m.media-amazon.com/images/I/810u9MkT3SL._AC_UF1000,1000_QL80_.jpg",
-  },
+import { BookData } from "@/lib/book.types";
+import { OLAuthorData, OLBookData } from "@/lib/open-library.types";
+import { MockDatabase } from "@/util/mock-db";
+import { useEffect, useState } from "react";
+
+export const mock_books_data: string[] = [
+  "/works/OL17930368W", // Atomic Habits
+  "/works/OL20618767W", // The Learn Startup
+  "/works/OL17078706W", // Zero to One
+  "/works/OL8982032W", // I Will Teach You To Be Rich
+  "/works/OL16818208W", // The Hard Thing About Hard Things
 ];
+export const addBookFromOLKey = async (db: MockDatabase, ol_key: string) => {
+  const bookDataRes = await fetch(`https://openlibrary.org${ol_key}.json`);
+  const bookData = await bookDataRes.json();
 
-export const loadMockDatabase = () => {
-  const db = new MockDatabase();
+  console.log(bookData);
+
+  const authorDataRes = await fetch(
+    `https://openlibrary.org${bookData.authors[0].author.key}.json`,
+  );
+  const authorData = await authorDataRes.json();
+
+  db.create({
+    title: bookData.title,
+    author: authorData.name,
+    imageURL: `https://covers.openlibrary.org/b/id/${bookData.covers[0]}-M.jpg`,
+    ol_key: ol_key,
+    personal_notes: "",
+    personal_rating: 5,
+    summary: "",
+  });
 };
+
+export function useMockDatabase(): BookData[] {
+  const [bookData, setBookData] = useState<BookData[]>([]);
+
+  useEffect(() => {
+    const db = new MockDatabase();
+    const initBooks = async () => {
+      if (db.empty()) {
+        for (const ol_key of mock_books_data) {
+          await addBookFromOLKey(db, ol_key);
+        }
+      }
+      setBookData(db.getAll());
+    };
+
+    initBooks();
+
+    return () => {
+      // Cleanup logic if necessary
+    };
+  }, []);
+
+  return bookData;
+}
