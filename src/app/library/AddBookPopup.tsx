@@ -31,7 +31,7 @@ export default function AddBookPopup() {
   }, [input]);
 
   // Close modal only on clicks outside the card
-  const handleClose = (e: MouseEvent<HTMLDivElement>) => {
+  const handleCloseIfOutside = (e: MouseEvent<HTMLDivElement>) => {
     if (e.target === e.currentTarget) {
       setOpen(false);
     }
@@ -78,7 +78,7 @@ export default function AddBookPopup() {
       {open && (
         <div
           className="fixed inset-0 z-10 flex h-screen w-screen items-center justify-center bg-black/40"
-          onMouseDown={handleClose}
+          onMouseDown={handleCloseIfOutside}
         >
           <div className="mx-2 flex h-3/4 w-full flex-col rounded-lg bg-white p-8 shadow-md md:mx-0 md:h-2/3 md:w-2/3 lg:w-1/2">
             <input
@@ -119,7 +119,16 @@ export default function AddBookPopup() {
               )}
             </div>
             <div className="flex-1" />
-            <div className="flex w-full justify-end space-x-4">
+            <div className="flex w-full items-center space-x-4">
+              <a
+                href="https://openlibrary.org"
+                className="hover:underline"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                Powered by Open Library
+              </a>
+              <div className="flex-1" />
               <button
                 className="rounded-lg px-8 py-2 font-bold text-red-800"
                 onClick={() => setOpen(false)}
