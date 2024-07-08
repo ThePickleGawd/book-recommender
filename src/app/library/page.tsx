@@ -14,7 +14,7 @@ export default function LibraryPage() {
   const bookDataArr = useMockDatabase(); // TODO: implement this with the database instead
 
   return (
-    <div className="flex flex-col items-center justify-center pt-8 xl:pt-16">
+    <div className="flex flex-col items-center justify-center py-8 xl:py-16">
       <div className="flex w-full flex-col items-center justify-center px-4 sm:w-2/3 xl:px-8">
         <div className="w-full">
           <div className="text-4xl font-bold">My Library</div>

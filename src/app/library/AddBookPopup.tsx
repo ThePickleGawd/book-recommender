@@ -77,21 +77,23 @@ export default function AddBookPopup() {
       </button>
       {open && (
         <div
-          className="fixed inset-0 z-10 flex h-screen w-screen items-center justify-center bg-black/40"
+          className="w-dvh fixed inset-0 z-10 flex h-dvh items-center justify-center bg-black/40"
           onMouseDown={handleCloseIfOutside}
         >
-          <div className="mx-2 flex h-3/4 w-full flex-col rounded-lg bg-white p-8 shadow-md md:mx-0 md:h-2/3 md:w-2/3 lg:w-1/2">
+          <div className="mx-2 flex h-4/5 w-full flex-col rounded-lg bg-white p-4 shadow-md md:mx-0 md:w-2/3 lg:h-2/3 lg:w-1/2">
             <input
-              className="w-full rounded-lg bg-neutral-200 p-4 focus:outline-neutral-300"
+              className="w-full rounded-lg bg-neutral-200 p-4 focus:outline-none"
               placeholder="Search title, author, isbn..."
               onChange={handleInputChange}
             />
-            <div className="mt-4">Top Results</div>
-            <div className="mt-2 overflow-y-scroll">
+            <div className="no-scrollbar mt-4 overflow-y-scroll">
               {isLoading ? (
                 <p>Loading...</p>
               ) : (
                 <div className="flex flex-col space-y-2">
+                  <div className="">
+                    {results.length === 0 ? "No results found" : "Top Results"}
+                  </div>
                   {results.map((book, idx) => (
                     <button
                       key={idx}
@@ -119,10 +121,10 @@ export default function AddBookPopup() {
               )}
             </div>
             <div className="flex-1" />
-            <div className="flex w-full items-center space-x-4">
+            <div className="mt-2 flex w-full items-end space-x-4">
               <a
                 href="https://openlibrary.org"
-                className="hover:underline"
+                className="text-xs hover:underline"
                 target="_blank"
                 rel="noopener noreferrer"
               >

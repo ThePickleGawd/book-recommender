@@ -1,6 +1,12 @@
 "use client";
 
-import { MouseEventHandler, useState, MouseEvent } from "react";
+import {
+  MouseEventHandler,
+  useState,
+  MouseEvent,
+  useEffect,
+  ChangeEvent,
+} from "react";
 import { StarIcon, TrashIcon } from "@heroicons/react/24/outline";
 import Link from "next/link";
 import Image from "next/image";
@@ -104,9 +110,26 @@ const BookDetailsPopup = ({
   closePopup: () => void;
   book: BookData;
 }) => {
-  const { title, author, summary, personal_notes, imageURL } = book;
+  const { title, author, summary, personal_notes, imageURL, ol_key } = book;
   const summaryRef = useAutoResizeTextarea();
   const notesRef = useAutoResizeTextarea();
+
+  const [summaryInput, setSummaryInput] = useState(summary);
+  const [notesInput, setNotesInput] = useState(personal_notes);
+
+  const saveBookDetails = () => {
+    const db = new MockDatabase();
+    db.update(ol_key, { summary: summaryInput, personal_notes: notesInput });
+    window.location.reload();
+    // TODO: I need to refresh the parent book, not the whole page
+  };
+
+  const handleSummaryChange = (e: ChangeEvent<HTMLTextAreaElement>) => {
+    setSummaryInput(e.target.value);
+  };
+  const handleNotesChange = (e: ChangeEvent<HTMLTextAreaElement>) => {
+    setNotesInput(e.target.value);
+  };
 
   // Close modal only on clicks outside the card
   const handleCloseIfOutside = (e: MouseEvent<HTMLDivElement>) => {
@@ -117,7 +140,7 @@ const BookDetailsPopup = ({
 
   return (
     <div
-      className="fixed inset-0 z-10 flex h-screen w-screen items-center justify-center bg-black/40"
+      className="w-dvh fixed inset-0 z-10 flex h-dvh items-center justify-center bg-black/40"
       onMouseDown={handleCloseIfOutside}
     >
       <div className="mx-2 flex h-3/4 w-full flex-col rounded-lg bg-white p-8 shadow-md md:mx-0 md:h-2/3 md:w-2/3 lg:w-1/2">
@@ -132,6 +155,8 @@ const BookDetailsPopup = ({
               <div>Summary</div>
               <textarea
                 ref={summaryRef}
+                onChange={handleSummaryChange}
+                value={summaryInput}
                 placeholder="Write a summary here"
                 className="w-full rounded-lg bg-neutral-200 p-4 focus:outline-neutral-300"
                 rows={3}
@@ -141,6 +166,8 @@ const BookDetailsPopup = ({
               <div>Personal Notes</div>
               <textarea
                 ref={notesRef}
+                onChange={handleNotesChange}
+                value={notesInput}
                 placeholder="Write your personal notes here"
                 className="w-full rounded-lg bg-neutral-200 p-4 focus:outline-neutral-300"
                 rows={6}
@@ -152,14 +179,18 @@ const BookDetailsPopup = ({
         <div className="flex-1" />
         <div className="flex w-full items-center space-x-4">
           <div className="flex-1" />
+
           <button
             className="rounded-lg px-8 py-2 font-bold text-red-800"
             onClick={closePopup}
           >
-            Cancel
+            Close
           </button>
-          <button className="rounded-lg bg-blue-200 px-8 py-2 font-bold text-blue-600 disabled:bg-neutral-300 disabled:text-neutral-600">
-            Add
+          <button
+            className="rounded-lg bg-blue-200 px-8 py-2 font-bold text-blue-600 disabled:bg-neutral-300 disabled:text-neutral-600"
+            onClick={saveBookDetails}
+          >
+            Save
           </button>
         </div>
       </div>

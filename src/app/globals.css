@@ -13,27 +13,26 @@
   scrollbar-width: none; /* Firefox */
 }
 
-.h-screen-no-navbar {
-  height: calc(100vh - 64px);
+.h-dvh-no-navbar {
+  height: calc(100dvh - 64px);
 }
 
 @layer utilities {
   .scrollbar::-webkit-scrollbar {
-    width: 10px;
+    width: 5px;
   }
 
   .scrollbar::-webkit-scrollbar-track {
-    background: #000000;
+    background: #fff;
     opacity: 0;
   }
 
   .scrollbar::-webkit-scrollbar-thumb {
-    background: #fff;
-    border-radius: 100vh;
-    border: 0.1px solid #b7b7b7;
+    background: #d4d4d4;
+    border-radius: 100dvh;
   }
 
   .scrollbar::-webkit-scrollbar-thumb:hover {
-    background: #909090;
+    /* background: #909090; */
   }
 }

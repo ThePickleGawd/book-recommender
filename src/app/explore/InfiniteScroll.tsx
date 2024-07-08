@@ -10,7 +10,7 @@ export default function InfiniteScroll() {
   const bookDataArr = useMockDatabase();
 
   return (
-    <div className="no-scrollbar h-screen-no-navbar snap-y snap-mandatory overflow-y-scroll">
+    <div className="no-scrollbar h-dvh-no-navbar snap-y snap-mandatory overflow-y-scroll">
       {bookDataArr.map((book) => (
         <BookRecommendation
           key={book.ol_key}
