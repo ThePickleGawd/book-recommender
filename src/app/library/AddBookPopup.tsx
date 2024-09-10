@@ -70,10 +70,10 @@ export default function AddBookPopup() {
   return (
     <>
       <button
-        className="min-h-300 group mx-4 my-2 flex items-center justify-center rounded-lg border-2 border-neutral-400/40 p-4 hover:border-neutral-400/80"
+        className="group flex aspect-[2/3] items-center justify-center rounded-lg border-2 border-neutral-500/40 hover:border-green-500/80"
         onClick={() => setOpen(true)}
       >
-        <PlusCircleIcon className="size-12 text-neutral-400/40 group-hover:text-neutral-400/80" />
+        <PlusCircleIcon className="size-12 text-neutral-500/40 group-hover:text-green-500/80" />
       </button>
       {open && (
         <div
@@ -132,13 +132,13 @@ export default function AddBookPopup() {
               </a>
               <div className="flex-1" />
               <button
-                className="rounded-lg px-8 py-2 font-bold text-red-800"
+                className="rounded-lg px-8 py-2 font-bold text-red-500"
                 onClick={() => setOpen(false)}
               >
                 Cancel
               </button>
               <button
-                className="rounded-lg bg-blue-200 px-8 py-2 font-bold text-blue-600 disabled:bg-neutral-300 disabled:text-neutral-600"
+                className="rounded-lg bg-blue-200 px-8 py-2 font-bold text-blue-500 disabled:bg-neutral-300 disabled:text-neutral-600"
                 disabled={selectedBook === undefined}
                 onClick={handleAddSelectedBook}
               >

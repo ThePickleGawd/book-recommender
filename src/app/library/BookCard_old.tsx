@@ -52,12 +52,49 @@ export default function BookCard({ book }: { book: BookData }) {
 
   return (
     <>
-      <div className="group flex aspect-[2/3] rounded-lg bg-black">
+      <div className="group relative flex space-x-4 rounded-lg p-4">
         <button
-          className="relative h-full w-full transition duration-200 group-hover:scale-110"
+          className="relative h-32 w-24 transition duration-200 group-hover:scale-110"
           onClick={() => setOpenPopup(true)}
         >
           <Image fill src={imageURL} alt={title} />
+        </button>
+
+        <div className="flex flex-1 flex-col items-start py-2">
+          <Link className="text-left" href="/books?isbn=1234">
+            {title}
+          </Link>
+          <Link
+            className="text-sm text-neutral-900"
+            href="/authors?name=jamesclear"
+          >
+            {author}
+          </Link>
+          <div className="mt-2 flex">
+            {[1, 2, 3, 4, 5].map((val) => (
+              <button
+                key={val}
+                onMouseEnter={() => handleMouseEnter(val)}
+                onMouseLeave={handleMouseLeave}
+                onClick={() => handleStarClick(val)}
+                className={`size-4`}
+                aria-label={`Rate this book ${val} stars`}
+              >
+                <StarIcon
+                  className={`${val <= (hoverRating || rating) ? "fill-current" : ""}`}
+                />
+              </button>
+            ))}
+          </div>
+        </div>
+        <button
+          className="absolute right-4 top-4 hidden rounded-full bg-orange-100/95 p-1 group-hover:block"
+          onClick={handleDelete}
+        >
+          <TrashIcon className="size-5 text-red-500 hover:text-red-700" />
+        </button>
+        <button className="absolute bottom-4 right-4 hidden group-hover:block">
+          <ArrowTopRightOnSquareIcon className="size-5 text-neutral-700" />
         </button>
       </div>
       {openPopup && (

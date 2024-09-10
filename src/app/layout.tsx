@@ -12,7 +12,7 @@ export const metadata: Metadata = {
 
 const Navbar = () => {
   return (
-    <nav className="flex h-16 w-full justify-end rounded-b-sm bg-orange-100 px-8">
+    <nav className="flex h-16 w-full justify-end rounded-b-sm px-8">
       <div className="flex h-full items-center justify-between">
         <ul className="flex justify-end gap-x-2 text-teal-950">
           <li>
@@ -44,7 +44,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={`${inter.className} h-dvh bg-orange-100`}>
+      <body className={`${inter.className} h-dvh`}>
         <Navbar />
         {children}
       </body>
