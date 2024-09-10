@@ -31,6 +31,7 @@ export interface OLBookSearchResult {
   isbn?: string[];
   cover_i?: string; // Use to fetch cover image
   ratings_average?: string;
+  already_read_count: number;
 }
 
 export interface OLSearchApiResponse {

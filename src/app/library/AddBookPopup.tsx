@@ -58,7 +58,10 @@ export default function AddBookPopup() {
         throw new Error(`HTTP error! status: ${response.status}`);
       }
       const data: OLSearchApiResponse = await response.json();
-      console.log(data);
+
+      // Sort by most popular
+      data.docs.sort((a, b) => b.already_read_count - a.already_read_count);
+
       setResults(data.docs);
       setIsLoading(false);
     } catch (error) {
@@ -84,6 +87,7 @@ export default function AddBookPopup() {
             <input
               className="w-full rounded-lg bg-neutral-200 p-4 focus:outline-none"
               placeholder="Search title, author, isbn..."
+              autoFocus
               onChange={handleInputChange}
             />
             <div className="no-scrollbar mt-4 overflow-y-scroll">

@@ -16,9 +16,11 @@ export default function LibraryPage() {
   return (
     <div className="flex flex-col items-center justify-center px-16 py-8 xl:px-24">
       <div className="flex w-full flex-col items-center justify-center">
-        <div className="w-full">
-          <div className="text-4xl font-bold">My Library</div>
-          <div className="text-lg">Your personal collection of books.</div>
+        <div className="flex w-full">
+          <div>
+            <div className="text-4xl font-bold">My Library</div>
+            <div className="text-lg">Your personal collection of books.</div>
+          </div>
         </div>
         <div className="mt-8 grid w-full auto-rows-fr grid-cols-[repeat(auto-fill,minmax(128px,1fr))] gap-4">
           {bookDataArr.map((book) => (

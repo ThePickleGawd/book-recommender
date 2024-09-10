@@ -26,7 +26,9 @@ export const addBookFromOLKey = async (db: MockDatabase, ol_key: string) => {
   db.create({
     title: bookData.title,
     author: authorData.name,
-    imageURL: `https://covers.openlibrary.org/b/id/${bookData.covers[0]}-M.jpg`,
+    imageURL: bookData.covers
+      ? `https://covers.openlibrary.org/b/id/${bookData.covers[0]}-M.jpg`
+      : "",
     ol_key: ol_key,
     personal_notes: "",
     personal_rating: 5,
