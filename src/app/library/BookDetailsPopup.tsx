@@ -11,7 +11,7 @@ import Image from "next/image";
 import { BookData } from "@/lib/book.types";
 import { MockDatabase } from "@/util/mock-db";
 import useAutoResizeTextarea from "@/hooks/useAutoResizeTextarea";
-import CoverImageFallback from "@/components/books/CoverImageFallback";
+import CoverImageFallback from "@/components/CoverImageFallback";
 
 export const BookDetailsPopup = ({
   closePopup,
@@ -103,9 +103,9 @@ export const BookDetailsPopup = ({
           </div>
         </div>
         <div className="mt-12">
-          <div className="text-3xl font-bold">Summary</div>
+          <div className="text-3xl font-bold">Overview</div>
           <br />
-          <div className="text-xl font-bold">Part 1: Two Systems</div>
+          <div className="text-xl font-bold">Motivation</div>
           <div className="text-neutral-700">
             System 1 operates automatically and quickly, with little or no
             effort and no sense of voluntary control. System 2 allocates
@@ -120,7 +120,7 @@ export const BookDetailsPopup = ({
             of steps.
           </div>
           <br />
-          <div className="text-xl font-bold">Part 2: Attention and Effort</div>
+          <div className="text-xl font-bold">Lessons</div>
           <div className="text-neutral-700">
             People, when engaged in a mental sprint, become effectively blind.
             As you become skilled in a task, its demand for energy diminishes.
@@ -129,7 +129,7 @@ export const BookDetailsPopup = ({
             task to another is effortful, especially under time pressure.
           </div>
           <br />
-          <div className="text-xl font-bold">Part 3: The Lazy Controller</div>
+          <div className="text-xl font-bold">Application</div>
           <div className="text-neutral-700">
             It is now a well-established proposition that both self-control and
             cognitive effort are forms of mental work. Several psychological
@@ -139,6 +139,12 @@ export const BookDetailsPopup = ({
             more likely to make selfish choices, use sexist language, and make
             superficial judgments in social situations. A few drinks have the
             same effect, as does a sleepless night.
+          </div>
+          <br />
+          <div className="text-3xl font-bold">Chapter Summary</div>
+          <div>
+            TODO: Add collapsable sections with each chapter; generally they
+            have bullet points at the end
           </div>
         </div>
       </div>

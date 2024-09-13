@@ -4,7 +4,7 @@ import { useState } from "react";
 import Image from "next/image";
 import { BookData } from "@/lib/book.types";
 import { BookDetailsPopup } from "./BookDetailsPopup";
-import CoverImageFallback from "@/components/books/CoverImageFallback";
+import CoverImageFallback from "@/components/CoverImageFallback";
 
 export default function BookCard({ book }: { book: BookData }) {
   const { title, author, imageURL } = book;
