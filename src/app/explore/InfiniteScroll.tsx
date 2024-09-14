@@ -2,7 +2,7 @@
 
 import { useRef } from "react";
 import BookRecommendation from "./BookRecommendation";
-import { useMockDatabase } from "@/util/mock-data";
+import { useMockDatabase } from "@/lib/utils/mock-data";
 
 const baseURL = process.env.NEXT_PUBLIC_SITE_URL!;
 

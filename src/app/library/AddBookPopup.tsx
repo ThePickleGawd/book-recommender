@@ -7,8 +7,8 @@ import {
   OLBookSearchResult,
   OLSearchApiResponse,
 } from "@/lib/open-library.types";
-import { addBookFromOLKey } from "@/util/mock-data";
-import { MockDatabase } from "@/util/mock-db";
+import { addBookFromOLKey } from "@/lib/utils/mock-data";
+import { MockDatabase } from "@/lib/utils/mock-db";
 
 export default function AddBookPopup() {
   // UI State

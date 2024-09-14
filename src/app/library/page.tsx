@@ -4,10 +4,10 @@ import { PlusCircleIcon, StarIcon } from "@heroicons/react/24/solid";
 import { StarIcon as StarOutlineIcon } from "@heroicons/react/24/outline";
 import Link from "next/link";
 import BookCard from "./BookCard";
-import { useMockDatabase } from "@/util/mock-data";
+import { useMockDatabase } from "@/lib/utils/mock-data";
 import AddBookPopup from "./AddBookPopup";
 import { useEffect, useState } from "react";
-import { MockDatabase } from "@/util/mock-db";
+import { MockDatabase } from "@/lib/utils/mock-db";
 import { OLBookData } from "@/lib/open-library.types";
 
 export default function LibraryPage() {

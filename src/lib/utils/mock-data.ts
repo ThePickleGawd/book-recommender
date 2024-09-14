@@ -2,7 +2,7 @@
 
 import { BookData } from "@/lib/book.types";
 import { OLAuthorData, OLBookData } from "@/lib/open-library.types";
-import { MockDatabase } from "@/util/mock-db";
+import { MockDatabase } from "@/lib/utils/mock-db";
 import { useEffect, useState } from "react";
 
 export const mock_books_data: string[] = [

@@ -9,7 +9,7 @@ import {
 import Link from "next/link";
 import Image from "next/image";
 import { BookData } from "@/lib/book.types";
-import { MockDatabase } from "@/util/mock-db";
+import { MockDatabase } from "@/lib/utils/mock-db";
 import useAutoResizeTextarea from "@/hooks/useAutoResizeTextarea";
 import CoverImageFallback from "@/components/CoverImageFallback";
 
