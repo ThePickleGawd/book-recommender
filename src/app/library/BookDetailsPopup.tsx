@@ -12,6 +12,7 @@ import { BookData } from "@/lib/book.types";
 import { MockDatabase } from "@/lib/utils/mock-db";
 import useAutoResizeTextarea from "@/hooks/useAutoResizeTextarea";
 import CoverImageFallback from "@/components/CoverImageFallback";
+import { BlockEditor } from "@/components/tiptap/BlockEditor";
 
 export const BookDetailsPopup = ({
   closePopup,
@@ -50,7 +51,7 @@ export const BookDetailsPopup = ({
 
   const [rating, setRating] = useState(book.personal_rating);
   const [hoverRating, setHoverRating] = useState(0);
-  const [openPopup, setOpenPopup] = useState(false);
+  const [summaryEditable, setSummaryEditable] = useState(false);
 
   const handleMouseEnter = (idx: number) => {
     setHoverRating(idx);
@@ -103,49 +104,27 @@ export const BookDetailsPopup = ({
           </div>
         </div>
         <div className="mt-12">
-          <div className="text-3xl font-bold">Overview</div>
-          <br />
-          <div className="text-xl font-bold">Motivation</div>
-          <div className="text-neutral-700">
-            System 1 operates automatically and quickly, with little or no
-            effort and no sense of voluntary control. System 2 allocates
-            attention to the effortful mental activities that demand it,
-            including complex computations. The operations of System 2 are often
-            associated with the subjective experience of agency, choice, and
-            concentration. I describe System 1 as effortlessly originating
-            impressions and feelings that are the main sources of the explicit
-            beliefs and deliberate choices of System 2. The automatic operations
-            of System 1 generate surprisingly complex patterns of ideas, but
-            only the slower System 2 can construct thoughts in an orderly series
-            of steps.
+          <div className="mb-2 flex">
+            <div className="flex-1" />
+            <div>
+              {summaryEditable ? (
+                <button
+                  className="rounded-lg bg-neutral-100 px-4 py-1"
+                  onClick={() => setSummaryEditable(false)}
+                >
+                  Confirm
+                </button>
+              ) : (
+                <button
+                  className="rounded-lg bg-neutral-100 px-4 py-1"
+                  onClick={() => setSummaryEditable(true)}
+                >
+                  Edit
+                </button>
+              )}
+            </div>
           </div>
-          <br />
-          <div className="text-xl font-bold">Lessons</div>
-          <div className="text-neutral-700">
-            People, when engaged in a mental sprint, become effectively blind.
-            As you become skilled in a task, its demand for energy diminishes.
-            Talent has similar effects. One of the significant discoveries of
-            cognitive psychologists in recent decades is that switching from one
-            task to another is effortful, especially under time pressure.
-          </div>
-          <br />
-          <div className="text-xl font-bold">Application</div>
-          <div className="text-neutral-700">
-            It is now a well-established proposition that both self-control and
-            cognitive effort are forms of mental work. Several psychological
-            studies have shown that people who are simultaneously challenged by
-            a demanding cognitive task and by a temptation are more likely to
-            yield to the temptation. People who are cognitively busy are also
-            more likely to make selfish choices, use sexist language, and make
-            superficial judgments in social situations. A few drinks have the
-            same effect, as does a sleepless night.
-          </div>
-          <br />
-          <div className="text-3xl font-bold">Chapter Summary</div>
-          <div>
-            TODO: Add collapsable sections with each chapter; generally they
-            have bullet points at the end
-          </div>
+          <BlockEditor editable={summaryEditable} />
         </div>
       </div>
     </div>
