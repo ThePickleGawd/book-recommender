@@ -13,6 +13,9 @@ import { MockDatabase } from "@/lib/utils/mock-db";
 import useAutoResizeTextarea from "@/hooks/useAutoResizeTextarea";
 import CoverImageFallback from "@/components/CoverImageFallback";
 import { BlockEditor } from "@/components/tiptap/BlockEditor";
+import { Icon } from "@/components/ui/Icon";
+import { Button } from "@/components/ui/Button";
+import { askAIPrompt } from "@/lib/constants";
 
 export const BookDetailsPopup = ({
   closePopup,
@@ -22,24 +25,17 @@ export const BookDetailsPopup = ({
   book: BookData;
 }) => {
   const { title, author, summary, personal_notes, imageURL, ol_key } = book;
-  const summaryRef = useAutoResizeTextarea();
-  const notesRef = useAutoResizeTextarea();
 
-  const [summaryInput, setSummaryInput] = useState(summary);
-  const [notesInput, setNotesInput] = useState(personal_notes);
+  const [rating, setRating] = useState(book.personal_rating);
+  const [hoverRating, setHoverRating] = useState(0);
+  const [summaryEditable, setSummaryEditable] = useState(false);
 
   const saveBookDetails = () => {
     const db = new MockDatabase();
-    db.update(ol_key, { summary: summaryInput, personal_notes: notesInput });
-    window.location.reload();
-    // TODO: I need to refresh the parent book, not the whole page
-  };
+    db.update(ol_key, { personal_notes: "TODO: Get from BlockEditor" });
+    setSummaryEditable(false);
 
-  const handleSummaryChange = (e: ChangeEvent<HTMLTextAreaElement>) => {
-    setSummaryInput(e.target.value);
-  };
-  const handleNotesChange = (e: ChangeEvent<HTMLTextAreaElement>) => {
-    setNotesInput(e.target.value);
+    // TODO: I need to refresh the parent book, not the whole page
   };
 
   // Close modal only on clicks outside the card
@@ -48,10 +44,6 @@ export const BookDetailsPopup = ({
       closePopup();
     }
   };
-
-  const [rating, setRating] = useState(book.personal_rating);
-  const [hoverRating, setHoverRating] = useState(0);
-  const [summaryEditable, setSummaryEditable] = useState(false);
 
   const handleMouseEnter = (idx: number) => {
     setHoverRating(idx);
@@ -68,6 +60,10 @@ export const BookDetailsPopup = ({
     db.update(book.ol_key, {
       personal_rating: idx,
     });
+  };
+
+  const handleAskAI = () => {
+    window.open(askAIPrompt(title), "_blank");
   };
 
   return (
@@ -104,23 +100,26 @@ export const BookDetailsPopup = ({
           </div>
         </div>
         <div className="mt-12">
-          <div className="mb-2 flex">
+          <div className="mb-2 flex space-x-2">
             <div className="flex-1" />
+            <Button variant="secondary" onClick={handleAskAI}>
+              Ask AI ✨
+            </Button>
             <div>
               {summaryEditable ? (
-                <button
-                  className="rounded-lg bg-neutral-100 px-4 py-1"
-                  onClick={() => setSummaryEditable(false)}
+                <Button
+                  onClick={saveBookDetails}
+                  className="border-none bg-green-500 hover:bg-green-600"
+                  variant="primary"
                 >
                   Confirm
-                </button>
+                  <Icon name="Check" />
+                </Button>
               ) : (
-                <button
-                  className="rounded-lg bg-neutral-100 px-4 py-1"
-                  onClick={() => setSummaryEditable(true)}
-                >
+                <Button onClick={() => setSummaryEditable(true)}>
                   Edit
-                </button>
+                  <Icon name="Pencil" />
+                </Button>
               )}
             </div>
           </div>

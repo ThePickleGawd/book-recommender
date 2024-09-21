@@ -16,14 +16,14 @@ export const useBlockEditor = () => {
     onCreate: (ctx) => {
       if (ctx.editor.isEmpty) {
         ctx.editor.commands.setContent(`
-            <h2>Motivations</h2>
-            <p></p>
-            <h2>Lessons</h2>
-            <p></p>
-            <h2>Applications</h2>
-            <p></p>
-            <h2>Quotes</h2>
-            <p></p>
+            <h1>Motivations</h1>
+            <p>Write something here...</p>
+            <h1>Lessons</h1>
+            <p>Write something here...</p>
+            <h1>Applications</h1>
+            <p>Write something here...</p>
+            <h1>Quotes</h1>
+            <p>Write something here...</p>
             `);
         ctx.editor.commands.focus("start", { scrollIntoView: true });
       }

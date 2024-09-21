@@ -10,7 +10,6 @@ import { useBlockEditor } from "@/hooks/useBlockEditor";
 import "@/styles/index.css";
 
 import { TableColumnMenu, TableRowMenu } from "@/extensions/Table/menus";
-import { EditorHeader } from "./components/EditorHeader";
 import { TextMenu } from "@/components/menus/TextMenu";
 import { ContentItemMenu } from "@/components/menus/ContentItemMenu";
 import * as Y from "yjs";
@@ -32,7 +31,7 @@ export const BlockEditor = ({ editable }: { editable: boolean }) => {
 
   return (
     <div
-      className={`flex h-full w-full rounded-lg ${editable ? "bg-neutral-100" : ""}`}
+      className={`flex h-full w-full rounded-md ${editable ? "bg-neutral-100" : ""}`}
       ref={menuContainerRef}
     >
       <div className="relative flex h-full flex-1 flex-col overflow-hidden">
