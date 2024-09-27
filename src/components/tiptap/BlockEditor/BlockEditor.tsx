@@ -14,16 +14,28 @@ import { TextMenu } from "@/components/menus/TextMenu";
 import { ContentItemMenu } from "@/components/menus/ContentItemMenu";
 import * as Y from "yjs";
 
-export const BlockEditor = ({ editable }: { editable: boolean }) => {
+export const BlockEditor = ({
+  editable,
+  initialContent,
+  contentCb,
+}: {
+  editable: boolean;
+  initialContent: string;
+  contentCb: (content: string) => void;
+}) => {
   const menuContainerRef = useRef(null);
 
-  const { editor } = useBlockEditor();
+  const { editor, content } = useBlockEditor({ initialContent });
 
   useEffect(() => {
     if (editor) {
       editor.setEditable(editable);
     }
   }, [editor, editable]);
+
+  useEffect(() => {
+    contentCb(content);
+  }, [content, contentCb]);
 
   if (!editor) {
     return null;

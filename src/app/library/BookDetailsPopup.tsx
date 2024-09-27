@@ -29,13 +29,22 @@ export const BookDetailsPopup = ({
   const [rating, setRating] = useState(book.personal_rating);
   const [hoverRating, setHoverRating] = useState(0);
   const [summaryEditable, setSummaryEditable] = useState(false);
+  const [editorContent, setEditorContent] = useState("");
 
   const saveBookDetails = () => {
     const db = new MockDatabase();
-    db.update(ol_key, { personal_notes: "TODO: Get from BlockEditor" });
+    db.update(ol_key, { personal_notes: editorContent });
     setSummaryEditable(false);
 
     // TODO: I need to refresh the parent book, not the whole page
+    window.location.reload();
+  };
+
+  const handleDelete = () => {
+    const db = new MockDatabase();
+    db.delete(ol_key);
+
+    window.location.reload();
   };
 
   // Close modal only on clicks outside the card
@@ -98,6 +107,15 @@ export const BookDetailsPopup = ({
               ))}
             </div>
           </div>
+          <div className="flex-1" />
+          <div>
+            <button
+              className="rounded-full p-1 hover:bg-red-200"
+              onClick={handleDelete}
+            >
+              <TrashIcon className="size-5 text-red-500" />
+            </button>
+          </div>
         </div>
         <div className="mt-12">
           <div className="mb-2 flex space-x-2">
@@ -123,7 +141,11 @@ export const BookDetailsPopup = ({
               )}
             </div>
           </div>
-          <BlockEditor editable={summaryEditable} />
+          <BlockEditor
+            editable={summaryEditable}
+            initialContent={personal_notes}
+            contentCb={setEditorContent}
+          />
         </div>
       </div>
     </div>

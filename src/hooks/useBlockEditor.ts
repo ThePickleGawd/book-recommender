@@ -1,6 +1,10 @@
+"use client";
+
 import { useEditor, useEditorState } from "@tiptap/react";
 import type { Editor } from "@tiptap/core";
 import { ExtensionKit } from "@/extensions/extension-kit";
+import History from "@tiptap/extension-history";
+import { useState } from "react";
 
 declare global {
   interface Window {
@@ -8,27 +12,25 @@ declare global {
   }
 }
 
-export const useBlockEditor = () => {
+export const useBlockEditor = ({
+  initialContent,
+}: {
+  initialContent: string;
+}) => {
+  const [content, setContent] = useState("");
+
   const editor = useEditor({
     immediatelyRender: true,
     shouldRerenderOnTransaction: false,
     autofocus: true,
     onCreate: (ctx) => {
-      if (ctx.editor.isEmpty) {
-        ctx.editor.commands.setContent(`
-            <h1>Motivations</h1>
-            <p>Write something here...</p>
-            <h1>Lessons</h1>
-            <p>Write something here...</p>
-            <h1>Applications</h1>
-            <p>Write something here...</p>
-            <h1>Quotes</h1>
-            <p>Write something here...</p>
-            `);
-        ctx.editor.commands.focus("start", { scrollIntoView: true });
-      }
+      ctx.editor.commands.setContent(initialContent);
+      ctx.editor.commands.focus("start", { scrollIntoView: true });
     },
-    extensions: [...ExtensionKit()],
+    onUpdate: (ctx) => {
+      setContent(ctx.editor.getHTML());
+    },
+    extensions: [History, ...ExtensionKit()],
     editorProps: {
       attributes: {
         autocomplete: "off",
@@ -40,7 +42,7 @@ export const useBlockEditor = () => {
   });
   window.editor = editor;
 
-  return { editor };
+  return { editor, content };
 };
 
 export default useBlockEditor;

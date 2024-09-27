@@ -4,6 +4,7 @@ import { BookData } from "@/lib/book.types";
 import { OLAuthorData, OLBookData } from "@/lib/open-library.types";
 import { MockDatabase } from "@/lib/utils/mock-db";
 import { useEffect, useState } from "react";
+import { bookDetailsDefaultContent } from "../constants";
 
 export const mock_books_data: string[] = [
   "/works/OL17930368W", // Atomic Habits
@@ -30,7 +31,7 @@ export const addBookFromOLKey = async (db: MockDatabase, ol_key: string) => {
       ? `https://covers.openlibrary.org/b/id/${bookData.covers[0]}-M.jpg`
       : "",
     ol_key: ol_key,
-    personal_notes: "",
+    personal_notes: bookDetailsDefaultContent,
     personal_rating: 5,
     summary: "",
   });

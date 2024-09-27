@@ -4,7 +4,7 @@ import { Editor, useEditorState } from "@tiptap/react";
 import { ContentPickerOptions } from "../components/ContentTypePicker";
 
 export const useTextmenuContentTypes = (editor: Editor) => {
-  return useEditorState({
+  return useEditorState<ContentPickerOptions>({
     editor,
     selector: (ctx) => [
       {

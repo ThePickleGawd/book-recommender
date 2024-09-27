@@ -10,7 +10,10 @@ import { ColorPicker } from "@/components/panels";
 import { FontFamilyPicker } from "./components/FontFamilyPicker";
 import { FontSizePicker } from "./components/FontSizePicker";
 import { useTextmenuContentTypes } from "./hooks/useTextmenuContentTypes";
-import { ContentTypePicker } from "./components/ContentTypePicker";
+import {
+  ContentPickerOptions,
+  ContentTypePicker,
+} from "./components/ContentTypePicker";
 import { EditLinkPopover } from "./components/EditLinkPopover";
 
 // We memorize the button so each button is not rerendered
